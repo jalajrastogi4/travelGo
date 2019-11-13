@@ -14,7 +14,7 @@
 - fixing the nuber of seats for tours 
 
 
-- Web version - not all functionalities of API added
+ Web version - not all functionalities of API added
 - To Be Added
 - Sign up
 - settings for admin
