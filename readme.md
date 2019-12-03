@@ -1,6 +1,6 @@
 # TravelGo Application
 
-# Build using Node, express, mongodb and more
+# Build using Node, express, mongodb
 
  API available
 - Users - CRUD, sign in/up, logout, authentication (JWT)
@@ -8,4 +8,4 @@
 - Reviews - CRUD
 - Bookings - CRUD
 
- Web Version 1.0.0
+ Web Version in progress
