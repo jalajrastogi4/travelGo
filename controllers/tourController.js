@@ -92,8 +92,8 @@ exports.getTourStats = catchAsync(async (req, res, next) => {
     },
     {
       $group: {
-        _id: { $toUpper: '$difficulty' },
-        numTours: { $sum: 1 },
+        _id: { $toUpper: '$difficulty' }, //group by difficulty
+        numTours: { $sum: 1 }, //for each of the document that goes through the pipline add 1
         numRatings: { $sum: '$ratingsQuantity' },
         avgRating: { $avg: '$ratingsAverage' },
         avgPrice: { $avg: '$price' },
