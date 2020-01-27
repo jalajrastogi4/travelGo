@@ -88,7 +88,7 @@ exports.deleteTour = factory.deleteOne(Tour);
 exports.getTourStats = catchAsync(async (req, res, next) => {
   const stats = await Tour.aggregate([
     {
-      $match: { ratingsAverage: { $gte: 4.5 } }
+      $match: { ratingsAverage: { $gte: 4.5 } } //to select the documents
     },
     {
       $group: {
@@ -122,7 +122,7 @@ exports.getMonthlyPlan = catchAsync(async (req, res, next) => {
 
   const plan = await Tour.aggregate([
     {
-      $unwind: '$startDates'
+      $unwind: '$startDates' //deconstruct an array field from the input docs & o/p a doc for each ele of the array
     },
     {
       $match: {
@@ -134,24 +134,24 @@ exports.getMonthlyPlan = catchAsync(async (req, res, next) => {
     },
     {
       $group: {
-        _id: { $month: '$startDates' },
+        _id: { $month: '$startDates' }, //$month return a number for a date & here we group by that number
         numTourStarts: { $sum: 1 },
-        tours: { $push: '$name' }
+        tours: { $push: '$name' } //push the name field in an array of 'tours'
       }
     },
     {
-      $addFields: { month: '$_id' }
+      $addFields: { month: '$_id' } // will add a field 'month' with value of _id
     },
     {
       $project: {
-        _id: 0
+        _id: 0 // to remove _id form getting displayed we do this step
       }
     },
     {
       $sort: { numTourStarts: -1 }
     },
     {
-      $limit: 12
+      $limit: 12 // limit the number of documents displayed
     }
   ]);
 
