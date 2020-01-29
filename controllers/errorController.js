@@ -45,37 +45,37 @@ const sendErrorDev = (err, req, res) => {
 };
 
 const sendErrorProd = (err, req, res) => {
-  // A) API
+  // this is for travel-go API
   if (req.originalUrl.startsWith('/api')) {
-    // A) Operational, trusted error: send message to client
+    // Operational, trusted error || errors we create ourselves: send message to client
     if (err.isOperational) {
       return res.status(err.statusCode).json({
         status: err.status,
         message: err.message
       });
     }
-    // B) Programming or other unknown error: don't leak error details
-    // 1) Log error
+    // Programming or other unknown error from 3rd part package: don't leak error details
+    // Log error
     console.error('ERROR 💥', err);
-    // 2) Send generic message
+    // Sending a generic message with 500 status code
     return res.status(500).json({
       status: 'error',
       message: 'Something went very wrong!'
     });
   }
 
-  // B) RENDERED WEBSITE
-  // A) Operational, trusted error: send message to client
+  // WEB Version
+  // Operational, trusted error: send message to client
   if (err.isOperational) {
     return res.status(err.statusCode).render('error', {
       title: 'Something went wrong!',
       msg: err.message
     });
   }
-  // B) Programming or other unknown error: don't leak error details
-  // 1) Log error
+  // Programming or other unknown error from 3rd part package: don't leak error details
+  // Log error
   console.error('ERROR 💥', err);
-  // 2) Send generic message
+  // Sending generic message
   return res.status(err.statusCode).render('error', {
     title: 'Something went wrong!',
     msg: 'Please try again later.'
