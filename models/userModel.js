@@ -34,7 +34,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Please confirm your password'],
     validate: {
-      // This only works on CREATE and SAVE!!!
+      // This only works on CREATE and SAVE! and not on UPDATE!
       validator: function(el) {
         return el === this.password;
       },
@@ -51,8 +51,9 @@ const userSchema = new mongoose.Schema({
   }
 });
 
+// Modify the password just before saving to DB
 userSchema.pre('save', async function(next) {
-  // Only run this function if password was actually modified
+  // Only run this function if password field in document was actually modified
   if (!this.isModified('password')) return next();
 
   // Hash the password with cost of 12
