@@ -78,6 +78,7 @@ userSchema.pre('save', function(next) {
 
 userSchema.pre(/^find/, function(next) {
   // this points to the current query
+  // only return users that have active: true
   this.find({ active: { $ne: false } });
   next();
 });

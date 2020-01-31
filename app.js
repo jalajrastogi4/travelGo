@@ -34,7 +34,7 @@ app.use(cors());
 // Access-Control-Allow-Origin *
 // api.travelgo.com, front-end travelgo.com
 // app.use(cors({
-//   origin: 'https://www.natours.com'
+//   origin: 'https://my-travel-go.herokuapp.com/'
 // }))
 
 app.options('*', cors());

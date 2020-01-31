@@ -123,6 +123,7 @@ tourSchema.index({ price: 1, ratingsAverage: -1 });
 tourSchema.index({ slug: 1 });
 tourSchema.index({ startLocation: '2dsphere' });
 
+// virtual property not saved to db
 tourSchema.virtual('durationWeeks').get(function() {
   return this.duration / 7;
 });
@@ -140,6 +141,7 @@ tourSchema.pre('save', function(next) {
   next();
 });
 
+// for using embedded doc
 // tourSchema.pre('save', async function(next) {
 //   const guidesPromises = this.guides.map(async id => await User.findById(id));
 //   this.guides = await Promise.all(guidesPromises);

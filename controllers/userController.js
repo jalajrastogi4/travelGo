@@ -60,15 +60,17 @@ const filterObj = (obj, ...allowedFields) => {
   return newObj;
 };
 
+// user to fetch his own data
 exports.getMe = (req, res, next) => {
   req.params.id = req.user.id;
   next();
 };
 
+// route for updating user data except passwords
 exports.updateMe = catchAsync(async (req, res, next) => {
   // console.log(req.file);
   // console.log(req.body);
-  // 1) Create error if user POSTs password data
+  // Create error if user POSTs password data
   if (req.body.password || req.body.passwordConfirm) {
     return next(
       new AppError(
@@ -78,12 +80,12 @@ exports.updateMe = catchAsync(async (req, res, next) => {
     );
   }
 
-  // 2) Filtered out unwanted fields names that are not allowed to be updated
-  // 2.1) storing the photo name in the filterObj which is passed as doc to store in DB
+  // Filtered out unwanted fields names that are not allowed to be updated
+  // storing the photo name in the filterObj which is passed as doc to store in DB
   const filteredBody = filterObj(req.body, 'name', 'email');
   if (req.file) filteredBody.photo = req.file.filename;
 
-  // 3) Update user document
+  // Update user document
   const updatedUser = await User.findByIdAndUpdate(req.user.id, filteredBody, {
     new: true,
     runValidators: true
@@ -97,6 +99,7 @@ exports.updateMe = catchAsync(async (req, res, next) => {
   });
 });
 
+// route for deletog user - change status to inactive
 exports.deleteMe = catchAsync(async (req, res, next) => {
   await User.findByIdAndUpdate(req.user.id, { active: false });
 
