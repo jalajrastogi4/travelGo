@@ -1,4 +1,3 @@
-// review / rating / createdAt / ref to tour / ref to user
 const mongoose = require('mongoose');
 const Tour = require('./tourModel');
 
@@ -87,15 +86,23 @@ reviewSchema.post('save', function() {
 
 // findByIdAndUpdate
 // findByIdAndDelete
-reviewSchema.pre(/^findOneAnd/, async function(next) {
-  this.r = await this.findOne();
-  // console.log(this.r);
-  next();
-});
+// reviewSchema.pre(/^findOneAnd/, async function(next) {
+//   this.r = await this.findOne();
+//   // console.log(this.r);
+//   next();
+// });
 
-reviewSchema.post(/^findOneAnd/, async function() {
-  // await this.findOne(); does NOT work here, query has already executed
-  await this.r.constructor.calcAverageRatings(this.r.tour);
+// reviewSchema.post(/^findOneAnd/, async function() {
+//   // await this.findOne(); does NOT work here, query has already executed
+//   await this.r.constructor.calcAverageRatings(this.r.tour);
+// });
+
+// Instead of using pre and post hooks pass the updated document : reviewUpdated
+// as argument to post query hook and call calAverageRatings on that
+reviewSchema.post(/^findOneAnd/, async function(reviewUpdated) {
+  // console.log('======== Updated============ \n');
+  // console.log(reviewUpdated);
+  await reviewUpdated.constructor.calcAverageRatings(reviewUpdated.tour);
 });
 
 const Review = mongoose.model('Review', reviewSchema);
