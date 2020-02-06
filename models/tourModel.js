@@ -135,6 +135,13 @@ tourSchema.virtual('reviews', {
   localField: '_id'
 });
 
+// virtual populate bookings
+// tourSchema.virtual('bookings', {
+//   ref: 'Booking',
+//   foreignField: 'tour',
+//   localField: '_id'
+// });
+
 // DOCUMENT MIDDLEWARE: runs before .save() and .create() will not run on .insertOne/Many()
 tourSchema.pre('save', function(next) {
   this.slug = slugify(this.name, { lower: true });

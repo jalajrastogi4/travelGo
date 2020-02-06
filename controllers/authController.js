@@ -44,6 +44,7 @@ exports.signup = catchAsync(async (req, res, next) => {
     passwordConfirm: req.body.passwordConfirm
   });
 
+  // http://127.0.0.1/me
   const url = `${req.protocol}://${req.get('host')}/me`;
   // console.log(url);
   await new Email(newUser, url).sendWelcome();
@@ -127,6 +128,7 @@ exports.protect = catchAsync(async (req, res, next) => {
 
   // GRANT ACCESS TO PROTECTED ROUTE
   req.user = currentUser;
+  // to be accessed in pug templates
   res.locals.user = currentUser;
   next();
 });
@@ -153,7 +155,7 @@ exports.isLoggedIn = async (req, res, next) => {
       }
 
       // THERE IS A LOGGED IN USER
-      res.locals.user = currentUser;
+      res.locals.user = currentUser; // to be accessed in pug templates
       return next();
     } catch (err) {
       return next();

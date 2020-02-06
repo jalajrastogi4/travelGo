@@ -48,7 +48,7 @@ const sendErrorDev = (err, req, res) => {
     });
   }
 
-  // WEB Version
+  // WEB Version - render error template
   console.error('ERROR 💥', err);
   return res.status(err.statusCode).render('error', {
     title: 'Something went wrong!',
