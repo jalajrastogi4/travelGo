@@ -63,6 +63,7 @@ exports.webhookCheckout = (req, res, next) => {
     return res.status(400).send(`Webhook error: ${err.message}`);
   }
 
+  // checkout.session.completed is the event selected in stripe when adding callback url
   if (event.type === 'checkout.session.completed')
     createBookingCheckout(event.data.object);
 

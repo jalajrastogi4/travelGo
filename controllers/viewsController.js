@@ -42,13 +42,31 @@ exports.getTour = catchAsync(async (req, res, next) => {
   });
 });
 
+//Login
 exports.getLoginForm = (req, res) => {
+  if (!req.headers.referer) {
+    return res.status(302).redirect('/');
+  }
   res.status(200).render('login', {
     title: 'Log into your account'
   });
 };
 
+//Sign Up
+exports.getSignUpForm = (req, res) => {
+  // console.log(req.headers.referer);
+  if (!req.headers.referer) {
+    return res.status(302).redirect('/');
+  }
+  res.status(200).render('signup', {
+    title: 'Sign up here'
+  });
+};
+
 exports.getAccount = (req, res) => {
+  if (!req.headers.referer) {
+    return res.status(302).redirect('/');
+  }
   res.status(200).render('account', {
     title: 'Your account'
   });

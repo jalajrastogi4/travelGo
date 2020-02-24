@@ -38,7 +38,7 @@ const createSendToken = (user, statusCode, req, res) => {
 
 exports.signup = catchAsync(async (req, res, next) => {
   const newUser = await User.create({
-    name: req.body.user,
+    name: req.body.name,
     email: req.body.email,
     password: req.body.password,
     passwordConfirm: req.body.passwordConfirm
@@ -155,6 +155,7 @@ exports.isLoggedIn = async (req, res, next) => {
       }
 
       // THERE IS A LOGGED IN USER
+      req.user = currentUser;
       res.locals.user = currentUser; // to be accessed in pug templates
       return next();
     } catch (err) {
